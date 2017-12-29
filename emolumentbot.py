@@ -116,12 +116,6 @@ from telegram.ext import InlineQueryHandler
 
 inline_currency_handler = InlineQueryHandler(inline_currency)
 dispatcher.add_handler(inline_currency_handler)
-#button_handler = CallbackQueryHandler(button)
-#dispatcher.add_handler(button_handler)
-#button2_handler = CallbackQueryHandler(button2)
-#dispatcher.add_handler(button2_handler)
-#button3_handler = CallbackQueryHandler(button3)
-#dispatcher.add_handler(button3_handler)
 dispatcher.add_error_handler(error_callback)
 
 updater.start_polling()
