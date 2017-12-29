@@ -10,7 +10,7 @@ class Currency:
 	def __init__(self, coin):
 		self.coin = coin
 		self.coinmarketcap = Market()
-		self.history = History()
+		#self.history = History()
 	#the following functions obtain specific info from the list provided by the market object
 	def value(self):
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['price_usd']), 'n')
@@ -22,5 +22,5 @@ class Currency:
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_24h']) , 'n')
 	def percent_one_week(self):
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_7d']), 'n')
-	def historica_data(self):
-		return self.history.Histo
+	#def historica_data(self):
+	#	return self.history.Histo
