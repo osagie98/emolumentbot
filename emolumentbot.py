@@ -40,6 +40,8 @@ def inline_currency(bot, update):
 	query = update.inline_query.query
 	if not query:
 		return
+	if 3 == 3:
+		print 'yes'
 	#create currency object
 	c = currency.Currency(query)
 	results = [
