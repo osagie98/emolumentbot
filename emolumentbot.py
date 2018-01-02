@@ -2,7 +2,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token='422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg')
+updater = Updater(token='481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4')
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -47,31 +47,31 @@ def inline_currency(bot, update):
 		InlineQueryResultArticle(
 			id=uuid4(),
 			title='VALUE: $' + c.value(),
-			input_message_content=InputTextMessageContent(query.title() + " value: $" + c.value())
+			input_message_content=InputTextMessageContent(query + " value: $" + c.value())
 		),
 		#market cap of the currency
 		InlineQueryResultArticle(
 			id=uuid4(),
 			title='MARKET CAP: $' + c.market_cap(),
-			input_message_content=InputTextMessageContent(query.title() + " market cap: $" + c.market_cap())
+			input_message_content=InputTextMessageContent(query + " market cap: $" + c.market_cap())
 		),
 		#one hour percent change of the currency
 		InlineQueryResultArticle(
 			id=uuid4(),
 			title='1 HR PERCENT CHANGE: ' + c.percent_one_hr() + '%',
-			input_message_content=InputTextMessageContent(query.title() + " one hour percent change: " + c.percent_one_hr() + '%')
+			input_message_content=InputTextMessageContent(query + " one hour percent change: " + c.percent_one_hr() + '%')
 		),
 		#one day percent change of the currency
 		InlineQueryResultArticle(
 			id=uuid4(),
 			title='1 DAY PERCENT CHANGE: ' + c.percent_one_day() + '%',
-			input_message_content=InputTextMessageContent(query.title() + " one day percent change: " + c.percent_one_day() + '%')
+			input_message_content=InputTextMessageContent(query + " one day percent change: " + c.percent_one_day() + '%')
 		),
 		#one week percent change of the currency
 		InlineQueryResultArticle(
 			id=uuid4(),
 			title='1 WEEK PERCENT CHANGE: ' + c.percent_one_week() + '%',
-			input_message_content=InputTextMessageContent(query.title() + " one week percent change: " + c.percent_one_week() + '%')
+			input_message_content=InputTextMessageContent(query + " one week percent change: " + c.percent_one_week() + '%')
 		),
         InlineQueryResultArticle(
             id=uuid4(),
