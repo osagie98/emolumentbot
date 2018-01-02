@@ -28,8 +28,10 @@ class Currency:
 class shortCurrency:
 
 	def __init__(self, shortcoin):
+		#initialized using the cryptocompare API
 		self.name = crycompare.Price()
 		self.shortcoin = shortcoin
+		#Uses the symbol to return the full name of the coin
 		self.coin = self.name.coinList()['Data'][shortcoin]['CoinName']
 		self.coinmarketcap = Market()
 		#self.history = History()
