@@ -4,5 +4,4 @@ idna==2.6
 requests==2.18.4
 urllib3==1.22
 python-telegram-bot==8.1.1
-cryptocompare==0.3
 coinmarketcap==4.1.1
