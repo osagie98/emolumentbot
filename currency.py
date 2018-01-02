@@ -1,7 +1,7 @@
 import coinmarketcap
 from coinmarketcap import Market
 import locale
-#import crycompare
+import crycompare
 #allows formatting of floats
 locale.setlocale(locale.LC_ALL, '')
 
@@ -24,12 +24,13 @@ class Currency:
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_7d']), 'n')
 	#def historica_data(self):
 	#	return self.history.Histo
-'''
+
 class shortCurrency:
 
-	def __init__(self, coin):
+	def __init__(self, shortcoin):
 		self.name = crycompare.Price()
-		self.coin = name.coinList()['Data'][coin]['CoinName']
+		self.shortcoin = shortcoin
+		self.coin = self.name.coinList()['Data'][shortcoin]['CoinName']
 		self.coinmarketcap = Market()
 		#self.history = History()
 	#the following functions obtain specific info from the list provided by the market object
@@ -43,4 +44,3 @@ class shortCurrency:
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_24h']) , 'n')
 	def percent_one_week(self):
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_7d']), 'n')
-'''

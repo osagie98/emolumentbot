@@ -38,10 +38,14 @@ import currency
 def inline_currency(bot, update):
 
 	query = update.inline_query.query
+	querys = query.encode('utf-8')
 	if not query:
 		return
 	#create currency object
-	c = currency.Currency(query)
+	if len(querys) == 3:
+		c = currency.shortCurrency(querys.upper())
+	else:
+		c = currency.Currency(query)
 	results = [
 	#value of the currency
 		InlineQueryResultArticle(

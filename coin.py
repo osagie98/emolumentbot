@@ -1,6 +1,8 @@
 import coinmarketcap
+from coinmarketcap import Market
 import locale
 import crycompare
+
 '''
 locale.setlocale(locale.LC_ALL, '')
 from coinmarketcap import Market
@@ -11,5 +13,11 @@ test = float(test)
 print '{:,.2f}'.format(test)
 '''
 
-test = crycompare.Price()
-print test.coinList()['Data']['LTC']['CoinName']
+#test = crycompare.Price()
+#print test.coinList()['Data']['BCH']['CoinName']
+
+test2 = crycompare.Price()
+print test2.price('BTC', 'USD')['USD']
+
+coins = Market()
+print coins.ticker('bitcoin cash', limit=3)[0]['price_usd']
