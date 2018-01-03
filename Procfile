@@ -1,1 +1,1 @@
-web: python emolumentbot.py 
+worker: python emolumentbot.py 
