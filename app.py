@@ -42,7 +42,7 @@ def inline_currency(bot, update):
 	if not query:
 		return
 	#create chooser object
-	c = currency.Chooser(querys.upper())
+	c = currency.Chooser(querys)
 	results = [
 		InlineQueryResultArticle(
 			id=uuid4(),
@@ -83,7 +83,7 @@ def inline_currency(bot, update):
         InlineQueryResultArticle(
             id=uuid4(),
             title='VERSION',
-            input_message_content=InputTextMessageContent('Emolumentbot v. 0.0.0 This is a non-functional bot. Release soon to follow'),
+            input_message_content=InputTextMessageContent('Emolumentbot alpha v. 0.0.1 This is a barely functional bot. Release soon to follow'),
         )
 	]
 	
