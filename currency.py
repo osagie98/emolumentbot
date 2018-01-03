@@ -5,11 +5,20 @@ import crycompare
 #allows formatting of floats
 locale.setlocale(locale.LC_ALL, '')
 
+class Image:
+	def __init__(self, coin):
+		url = crycompare.Price()
+		self.baseurl = url.coinList()['BaseImageUrl']
+		self.coinurl = url.coinList()['Data'][coin]['ImageUrl']
+	def create_image_url(self):
+		return self.baseurl + self.coinurl
+
 class Currency:
 	
 	def __init__(self, coin):
 		self.coin = coin
 		self.coinmarketcap = Market()
+		self.image = Image(self.coinmarketcap.ticker(coin, limit=3)[0]['symbol'])
 		#self.history = History()
 	#the following functions obtain specific info from the list provided by the market object
 	def value(self):
@@ -22,6 +31,11 @@ class Currency:
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_24h']) , 'n')
 	def percent_one_week(self):
 		return format(float(self.coinmarketcap.ticker(self.coin, limit=3)[0]['percent_change_7d']), 'n')
+		#returns the correctly formatted name of the currency
+	def formatted_name(self):
+		return self.coinmarketcap.ticker(self.coin, limit=3)[0]['name']
+	def get_image(self):
+		return self.image.create_image_url()
 	#def historica_data(self):
 	#	return self.history.Histo
 
