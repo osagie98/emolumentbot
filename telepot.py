@@ -49,7 +49,17 @@ def main():
     updater.dispatcher.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
+    #updater.start_polling()
+    import os
+
+    TOKEN = "TOKEN422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg"
+    PORT = int(os.environ.get('PORT', '8443'))
+    updater = Updater(TOKEN)
+    # add handlers
+    updater.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=TOKEN)
+    updater.bot.set_webhook("https://arcane-everglades-80300.herokuapp.com/" + TOKEN)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
