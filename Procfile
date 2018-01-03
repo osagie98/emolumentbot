@@ -1,2 +1,1 @@
-web: python emolumentbot.py
-worker: node index.js
+web: python emolumentbot.py -p $PORT
