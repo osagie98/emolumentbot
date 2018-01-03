@@ -20,4 +20,4 @@ test2 = crycompare.Price()
 print test2.price('BTC', 'USD')['USD']
 
 coins = Market()
-print coins.ticker('bitcoin-cash', limit=3)[0]['symbol']
+print coins.ticker('iota', limit=3)[0]['symbol']
