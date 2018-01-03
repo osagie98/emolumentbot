@@ -52,7 +52,7 @@ def main():
     #updater.start_polling()
     import os
 
-    TOKEN = "TOKEN422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg"
+    TOKEN = "422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg"
     PORT = int(os.environ.get('PORT', '8443'))
     updater = Updater(TOKEN)
     # add handlers
