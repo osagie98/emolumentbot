@@ -122,14 +122,5 @@ inline_currency_handler = InlineQueryHandler(inline_currency)
 dispatcher.add_handler(inline_currency_handler)
 dispatcher.add_error_handler(error_callback)
 
-#updater.start_polling()
-import os
-TOKEN = "481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4"
-PORT = int(os.environ.get('PORT', '8443'))
-updater = Updater(TOKEN)
-# add handlers
-updater.start_webhook(listen="0.0.0.0",
-                      port=PORT,
-                      url_path=TOKEN)
-updater.bot.set_webhook("https://desolate-citadel-53343.herokuapp.com/" + TOKEN)
+updater.start_polling()
 updater.idle()
