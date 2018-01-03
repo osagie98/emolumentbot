@@ -14,10 +14,14 @@ print '{:,.2f}'.format(test)
 '''
 
 test = crycompare.Price()
-print test.coinList()['Data']['BCH']['ImageUrl']
+#print test.coinList()['Data']['BCH']
 
 test2 = crycompare.Price()
 print test2.price('BTC', 'USD')['USD']
 
 coins = Market()
-print coins.ticker('iota', limit=3)[0]['symbol']
+print coins.ticker('miota', limit=3)[0]['symbol']
+
+coin = u"bitcoin cash / BCC"
+coin = coin.replace(' ', '-')
+print coin

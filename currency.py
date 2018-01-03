@@ -50,6 +50,8 @@ class shortCurrency:
 		self.shortcoin = shortcoin
 		#Uses the symbol to return the full name of the coin
 		self.coin = self.name.coinList()['Data'][shortcoin]['CoinName']
+		self.coin = self.coin.replace(' ', '-')
+		print self.coin + ' #####################################################3'
 		self.coinmarketcap = Market()
 		self.image = Image(self.coinmarketcap.ticker(self.coin, limit=3)[0]['symbol'])
 		#self.history = History()
@@ -68,3 +70,29 @@ class shortCurrency:
 		return self.coinmarketcap.ticker(self.coin, limit=3)[0]['name']
 	def get_image(self):
 		return self.image.create_image_url()
+
+#a class that decides whether query is the full name of the coin, or a symbol, and creates the correct class
+class Chooser:
+
+	def __init__(self, query):
+		if query in crycompare.Price().coinList()['Data']:
+			self.money = shortCurrency(query)
+		else:
+			if query == 'MIOTA':
+				query = 'IOTA'
+			self.money = Currency(query)
+	#the following functions return values from either the Currency or shortCurrency class
+	def value(self):
+		return self.money.value()
+	def market_cap(self):
+		return self.money.market_cap()
+	def percent_one_hr(self):
+		return self.money.percent_one_hr()
+	def percent_one_day(self):
+		return self.money.percent_one_day()
+	def percent_one_week(self):
+		return self.money.percent_one_week()
+	def formatted_name(self):
+		return self.money.formatted_name()
+	def get_image(self):
+		return self.money.get_image()

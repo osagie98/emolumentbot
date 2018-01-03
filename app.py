@@ -2,7 +2,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token='422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg')
+updater = Updater(token='481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4')
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -41,11 +41,8 @@ def inline_currency(bot, update):
 	querys = query.encode('utf-8')
 	if not query:
 		return
-	#create currency object
-	if len(querys) == 3:
-		c = currency.shortCurrency(querys.upper())
-	else:
-		c = currency.Currency(query)
+	#create chooser object
+	c = currency.Chooser(querys.upper())
 	results = [
 		InlineQueryResultArticle(
 			id=uuid4(),
