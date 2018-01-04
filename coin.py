@@ -2,6 +2,7 @@ import coinmarketcap
 from coinmarketcap import Market
 import locale
 import crycompare
+import config
 
 '''
 locale.setlocale(locale.LC_ALL, '')
@@ -32,7 +33,7 @@ coin = coin.replace(' ', '-')
 print coin
 
 check = Market()
-print check.ticker(limit=1000)
+print config.obnoxious_token
 query = 'putincoin'
 query2 = query.upper()
 for x in range(0, len(check.ticker())-1):
