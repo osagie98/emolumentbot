@@ -49,8 +49,11 @@ class shortCurrency:
 		#initialized using the cryptocompare API
 		self.name = crycompare.Price()
 		self.shortcoin = shortcoin
+		#Special case for IOTA, FIX WITH A DIFFERENT API OR WEBSCRAPING
+		if shortcoin == 'MIOTA':
+			self.shortcoin = 'IOT'
 		#Uses the symbol to return the full name of the coin
-		self.coin = self.name.coinList()['Data'][shortcoin]['CoinName']
+		self.coin = self.name.coinList()['Data'][self.shortcoin]['CoinName']
 		self.coin = self.coin.replace(' ', '-')
 		self.coinmarketcap = Market()
 		self.coinDict = self.coinmarketcap.ticker(self.coin)[0]
