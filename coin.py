@@ -1,7 +1,15 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
 import coinmarketcap
 from coinmarketcap import Market
 import locale
 import crycompare
+import babel
+
+signDict = {'USD':'$', 'AUD':'AU$', 'BRL':'R$', 'CAN':'C$', 
+		'CHF':'CHF ', 'CNY':'C¥', 'EUR':'€', 'GBP':'£', 'HKD':'HK$', 
+		'IDR':'Rp ', 'JPY':'JP¥', 'KRW':'₩', 'MXN':'MX$', 'RUB':'₽'}
+print signDict['RUB']
 
 '''
 locale.setlocale(locale.LC_ALL, '')
@@ -12,7 +20,7 @@ test = coinmarketcap.ticker('bitcoin', limit=3)[0]['market_cap_usd']
 test = float(test)
 print '{:,.2f}'.format(test)
 '''
-
+'''
 test = crycompare.Price()
 #print test.coinList()['Data']['BCH']
 
@@ -32,7 +40,7 @@ coin = coin.replace(' ', '-')
 print coin
 
 check = Market()
-print check.ticker(limit=1000)
+print check.ticker(limit=3, convert='eur')
 query = 'putincoin'
 query2 = query.upper()
 for x in range(0, len(check.ticker())-1):
@@ -43,7 +51,7 @@ for x in range(0, len(check.ticker())-1):
 		print 'This is a symbol'
 		break
 
-'''
+
 		self.check = Market()
 		#creates lists of possible queries
 		idList = []

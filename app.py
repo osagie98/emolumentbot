@@ -1,8 +1,10 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
 from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token="422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg")
+updater = Updater(token="481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4")
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -38,54 +40,97 @@ import currency
 def inline_currency(bot, update):
 
 	query = update.inline_query.query
+	#changes unicode object into a string
 	querys = query.encode('utf-8')
 	if not query:
 		return
-	#create chooser object
-	c = currency.Chooser(querys)
-	results = [
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title=c.formatted_name(),
-			input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
-			thumb_url=c.get_image()
-		),
-	#value of the currency
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title='VALUE: $' + c.value(),
-			input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value())
-		),
-		#market cap of the currency
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title='MARKET CAP: $' + c.market_cap(),
-			input_message_content=InputTextMessageContent(c.formatted_name() + " market cap: $" + c.market_cap())
-		),
-		#one hour percent change of the currency
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title='1 HR PERCENT CHANGE: ' + c.percent_one_hr() + '%',
-			input_message_content=InputTextMessageContent(c.formatted_name() + " one hour percent change: " + c.percent_one_hr() + '%')
-		),
-		#one day percent change of the currency
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title='1 DAY PERCENT CHANGE: ' + c.percent_one_day() + '%',
-			input_message_content=InputTextMessageContent(c.formatted_name() + " one day percent change: " + c.percent_one_day() + '%')
-		),
-		#one week percent change of the currency
-		InlineQueryResultArticle(
-			id=uuid4(),
-			title='1 WEEK PERCENT CHANGE: ' + c.percent_one_week() + '%',
-			input_message_content=InputTextMessageContent(c.formatted_name() + " one week percent change: " + c.percent_one_week() + '%')
-		),
-        InlineQueryResultArticle(
-            id=uuid4(),
-            title='VERSION',
-            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.2 This is a barely functional bot. Release soon to follow\n\t- Update (1/3/18): Coin bug fixed. All Coinmarketcap currencies are now supported.'),
-        )
-	]
+	if " " in querys:
+		#create list with query words
+		qList = querys.split()
+		#create chooser object
+		c = currency.Chooser(qList[0], qList[1])
+		s = currency.Symbol(qList[1].upper())
+		results = [
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=c.formatted_name(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				thumb_url=c.get_image()
+			),
+		#value of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Value in ' + qList[1].upper(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " value: " + s.get_symbol() + " " + c.value_foreign()),
+				description= s.get_symbol() + c.value_foreign()
+			),
+			#market cap of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Market Capitalization in ' + qList[1].upper(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " market cap: " + s.get_symbol() + " " + c.market_cap_foreign()),
+				description= s.get_symbol() + c.market_cap_foreign()
+			),
+			#one hour percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='24 Hour Volume in ' + qList[1].upper(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " 24hr volume: " + s.get_symbol() + " " + c.day_foreign()),
+				description= s.get_symbol() + c.day_foreign()
+			)
+		]
+	else:
+		#create chooser object
+		c = currency.Chooser(querys)
+		results = [
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=c.formatted_name(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				thumb_url=c.get_image()
+			),
+		#value of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Value',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				description= '$' + c.value()
+			),
+			#market cap of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Market Capitalization',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " market cap: $" + c.market_cap()),
+				description= '$' + c.market_cap()
+			),
+			#one hour percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='1 Hour Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " one hour percent change: " + c.percent_one_hr() + '%'),
+				description= c.percent_one_hr() + '%'
+			),
+			#one day percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='1 Day Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " one day percent change: " + c.percent_one_day() + '%'),
+				description= c.percent_one_day() + '%'
+			),
+			#one week percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='1 Week Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " one week percent change: " + c.percent_one_week() + '%'),
+				description= c.percent_one_week() + '%'
+			),
+	        InlineQueryResultArticle(
+	            id=uuid4(),
+	            title='Version',
+	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.3 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): Limited functionality added for supported coinmarketcap currencies. Formatting improved.'),
+	            description= 'Information on the latest update.'
+	        )
+		]
 	
 	bot.answer_inline_query(update.inline_query.id, results)
 
