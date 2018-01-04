@@ -4,7 +4,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token="481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4")
+updater = Updater(token="422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg")
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -36,6 +36,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineKe
 
 #importing the custom currency class
 import currency
+import feedparser
 
 def inline_currency(bot, update):
 
@@ -44,7 +45,76 @@ def inline_currency(bot, update):
 	querys = query.encode('utf-8')
 	if not query:
 		return
-	if " " in querys:
+	#queryn checks for a news query
+	queryn = querys.lower()
+	if queryn == 'news':
+		#create feedparser object 
+		d = feedparser.parse('http://feeds.feedburner.com/Coindesk?format=xml')
+		print d['entries'][0]['title'] 
+		results = [
+		#top feed results
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][0]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][0]['link']),
+				description=d['entries'][0]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][1]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][1]['link']),
+				description=d['entries'][1]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][2]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][2]['link']),
+				description=d['entries'][2]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][3]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][3]['link']),
+				description=d['entries'][3]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][4]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][4]['link']),
+				description=d['entries'][4]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][5]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][5]['link']),
+				description=d['entries'][5]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][6]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][6]['link']),
+				description=d['entries'][6]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][7]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][7]['link']),
+				description=d['entries'][7]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][8]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][8]['link']),
+				description=d['entries'][8]['summary_detail']['value']
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title=d['entries'][9]['title'],
+				input_message_content=InputTextMessageContent(d['entries'][9]['link']),
+				description=d['entries'][9]['summary_detail']['value']
+			)
+		]
+	elif " " in querys:
 		#create list with query words
 		qList = querys.split()
 		#create chooser object
@@ -127,7 +197,7 @@ def inline_currency(bot, update):
 	        InlineQueryResultArticle(
 	            id=uuid4(),
 	            title='Version',
-	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.3 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): Limited functionality added for supported coinmarketcap currencies. Formatting improved.'),
+	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.4 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): News functionality added'),
 	            description= 'Information on the latest update.'
 	        )
 		]

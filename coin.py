@@ -5,12 +5,17 @@ from coinmarketcap import Market
 import locale
 import crycompare
 import babel
+import feedparser
 
+d = feedparser.parse('http://feeds.feedburner.com/Coindesk?format=xml')
+print d['entries'][1]['summary_detail']['value'] 
+
+'''
 signDict = {'USD':'$', 'AUD':'AU$', 'BRL':'R$', 'CAN':'C$', 
 		'CHF':'CHF ', 'CNY':'C¥', 'EUR':'€', 'GBP':'£', 'HKD':'HK$', 
 		'IDR':'Rp ', 'JPY':'JP¥', 'KRW':'₩', 'MXN':'MX$', 'RUB':'₽'}
 print signDict['RUB']
-
+'''
 '''
 locale.setlocale(locale.LC_ALL, '')
 from coinmarketcap import Market
