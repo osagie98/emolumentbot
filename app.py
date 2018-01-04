@@ -2,9 +2,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-import config
-key = config.emolument_token
-updater = Updater(token=key)
+updater = Updater(token="481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4")
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
