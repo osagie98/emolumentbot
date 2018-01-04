@@ -77,7 +77,7 @@ class Chooser:
 
 	def __init__(self, query):
 		self.check = Market()
-		self.coinDict = self.check.ticker()
+		self.coinDict = self.check.ticker(limit=1000)
 		#uppercase for symbols
 		query2 = query.upper()
 		for x in range(0, len(self.coinDict)-1):

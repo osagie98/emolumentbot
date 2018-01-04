@@ -2,7 +2,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token='481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4')
+updater = Updater(token='422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg')
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -83,7 +83,7 @@ def inline_currency(bot, update):
         InlineQueryResultArticle(
             id=uuid4(),
             title='VERSION',
-            input_message_content=InputTextMessageContent('Emolumentbot alpha v. 0.0.1 This is a barely functional bot. Release soon to follow'),
+            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.2 This is a barely functional bot. Release soon to follow\n\t- Update (1/3/18): Coin bug fixed. All Coinmarketcap currencies are now supported.'),
         )
 	]
 	
