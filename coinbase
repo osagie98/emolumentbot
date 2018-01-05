@@ -1,0 +1,2 @@
+from coinbase.wallet.client import OAuthClient
+client = OAuthClient(access_token, refresh_token)
