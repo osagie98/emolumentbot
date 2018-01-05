@@ -71,6 +71,9 @@ class shortCurrency:
 		#Uses the symbol to return the full name of the coin
 		self.coin = self.name.coinList()['Data'][self.shortcoin]['CoinName']
 		self.coin = self.coin.replace(' ', '-')
+		#bitcoin cash workaround, fix later
+		if self.coin == 'Bitcoin-Cash-/-BCC':
+			self.coin = 'bitcoin-cash'
 		self.coinmarketcap = Market()
 		if currency == '':
 			self.coinDict = self.coinmarketcap.ticker(self.coin)[0]
@@ -108,9 +111,10 @@ class Chooser:
 	def __init__(self, query, currency=''):
 		self.check = Market()
 		self.coinDict = self.check.ticker(limit=1000)
+		length = len(self.coinDict)-1
 		#uppercase for symbols
 		query2 = query.upper()
-		for x in range(0, len(self.coinDict)-1):
+		for x in range(0, length):
 			if query == self.coinDict[x]['id'] or query == self.coinDict[x]['name']:
 				self.money = Currency(query, currency)
 				break

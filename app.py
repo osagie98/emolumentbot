@@ -4,7 +4,7 @@ from telegram.ext import Updater
 from time import sleep
 #to format numbers
 import locale
-updater = Updater(token="481020495:AAGnz18VMT21UfeM0GaifqOZsQQY9x9Etr4")
+updater = Updater(token="422005629:AAGAQNWUHuRYEC8ezlTfgJfPHrvARKAu4sg")
 dispatcher = updater.dispatcher
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -59,14 +59,14 @@ def inline_currency(bot, update):
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Bitcoin (BTC)',
-				input_message_content=InputTextMessageContent('Bitcoin Value: $' + g.get_btc() + '\nGDAX 24hr Volume: $' + g.get_btc_vol()),
+				input_message_content=InputTextMessageContent('Bitcoin GDAX Value: $' + g.get_btc() + '\nGDAX 24hr Volume: $' + g.get_btc_vol()),
 				description='$' + g.get_btc(),
 				thumb_url='https://www.cryptocompare.com/media/19633/btc.png'
 			),
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Litecoin (LTC)',
-				input_message_content=InputTextMessageContent('Litecoin Value: $' + g.get_ltc() + '\nGDAX 24hr Volume: $' + g.get_ltc_vol()),
+				input_message_content=InputTextMessageContent('Litecoin GDAX Value: $' + g.get_ltc() + '\nGDAX 24hr Volume: $' + g.get_ltc_vol()),
 				description='$' + g.get_ltc(),
 				thumb_url='https://www.cryptocompare.com/media/19782/litecoin-logo.png'
 			),
@@ -74,7 +74,7 @@ def inline_currency(bot, update):
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Ethereum (ETH)',
-				input_message_content=InputTextMessageContent('Ethereum Value: $' + g.get_eth() + '\nGDAX 24hr Volume: $' + g.get_eth_vol()),
+				input_message_content=InputTextMessageContent('Ethereum GDAX Value: $' + g.get_eth() + '\nGDAX 24hr Volume: $' + g.get_eth_vol()),
 				description= '$' + g.get_eth(),
 				thumb_url='https://www.cryptocompare.com/media/20646/eth_logo.png'
 			),
@@ -82,7 +82,7 @@ def inline_currency(bot, update):
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Bitcoin Cash (BCH)',
-				input_message_content=InputTextMessageContent('Bitcoin Cash Value: $' + g.get_bch() + '\nGDAX 24hr Volume: $' + g.get_bch_vol()),
+				input_message_content=InputTextMessageContent('Bitcoin Cash GDAX Value: $' + g.get_bch() + '\nGDAX 24hr Volume: $' + g.get_bch_vol()),
 				description='$' + g.get_bch(),
 				thumb_url='https://www.cryptocompare.com/media/1383919/bch.jpg'
 			)
@@ -154,6 +154,16 @@ def inline_currency(bot, update):
 				description=d['entries'][9]['summary_detail']['value']
 			)
 		]
+	elif queryn == 'version':
+		results = [
+			InlineQueryResultArticle(
+	            id=uuid4(),
+	            title='Version',
+	            input_message_content=InputTextMessageContent('EmolumentBot beta v. 0.0.1 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): GDAX functionality added, Version moved, updated some icons'),
+	            description= 'Information on the latest update.',
+	            thumb_url='http://freevector.co/wp-content/uploads/2013/02/9788-double-wrench1.png'
+			)
+	    ]	
 	elif " " in querys:
 		#create list with query words
 		qList = querys.split()
@@ -172,7 +182,8 @@ def inline_currency(bot, update):
 				id=uuid4(),
 				title='Value in ' + qList[1].upper(),
 				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: " + s.get_symbol() + " " + c.value_foreign()),
-				description= s.get_symbol() + c.value_foreign()
+				description= s.get_symbol() + c.value_foreign(),
+				thumb_url='https://i.imgur.com/38v6W37l.jpg'
 			),
 			#market cap of the currency
 			InlineQueryResultArticle(
@@ -225,7 +236,8 @@ def inline_currency(bot, update):
 				id=uuid4(),
 				title='Value',
 				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: $" + c.value()),
-				description= '$' + c.value()
+				description= '$' + c.value(),
+				thumb_url='https://i.imgur.com/38v6W37l.jpg'
 			),
 			#market cap of the currency
 			InlineQueryResultArticle(
@@ -261,13 +273,7 @@ def inline_currency(bot, update):
 				title='1 Week Percent Change',
 				input_message_content=InputTextMessageContent(c.formatted_name() + " One Week Percent Change: " + c.percent_one_week() + '%'),
 				description= c.percent_one_week() + '%'
-			),
-	        InlineQueryResultArticle(
-	            id=uuid4(),
-	            title='Version',
-	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.5 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): GDAX functionality added'),
-	            description= 'Information on the latest update.'
-	        )
+			)
 		]
 	
 	bot.answer_inline_query(update.inline_query.id, results)

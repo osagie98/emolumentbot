@@ -11,7 +11,7 @@ import gdax
 urlDict = crycompare.Price().coinList()
 baseurl = urlDict['BaseImageUrl']
 coinurl = urlDict['Data']['BCH']['ImageUrl']
-print baseurl + coinurl
+print crycompare.Price().coinList()['Data']['BCH']['CoinName']
 '''
 signDict = {'USD':'$', 'AUD':'AU$', 'BRL':'R$', 'CAN':'C$', 
 		'CHF':'CHF ', 'CNY':'C¥', 'EUR':'€', 'GBP':'£', 'HKD':'HK$', 
