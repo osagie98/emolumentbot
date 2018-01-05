@@ -4,6 +4,7 @@ import coinmarketcap
 from coinmarketcap import Market
 import locale
 import crycompare
+import gdax
 #allows formatting of floats
 locale.setlocale(locale.LC_ALL, '')
 
@@ -41,6 +42,8 @@ class Currency:
 		return format(float(self.coinDict['percent_change_24h']) , 'n')
 	def percent_one_week(self):
 		return format(float(self.coinDict['percent_change_7d']), 'n')
+	def day(self):
+		return '{:,.2f}'.format(float(self.coinDict['24h_volume_usd']), 'n')
 		#returns the correctly formatted name of the currency
 	def formatted_name(self):
 		return self.coinDict['name']
@@ -86,6 +89,8 @@ class shortCurrency:
 		return format(float(self.coinDict['percent_change_24h']) , 'n')
 	def percent_one_week(self):
 		return format(float(self.coinDict['percent_change_7d']), 'n')
+	def day(self):
+		return '{:,.2f}'.format(float(self.coinDict['24h_volume_usd']), 'n')
 	def formatted_name(self):
 		return self.coinDict['name']
 	def get_image(self):
@@ -123,6 +128,8 @@ class Chooser:
 		return self.money.percent_one_day()
 	def percent_one_week(self):
 		return self.money.percent_one_week()
+	def day(self):
+		return self.money.day()
 	def formatted_name(self):
 		return self.money.formatted_name()
 	def get_image(self):
@@ -133,6 +140,32 @@ class Chooser:
 		return self.money.day_foreign()
 	def market_cap_foreign(self):
 		return self.money.market_cap_foreign()
+
+#A class for GDAX information
+class Gdax:
+
+	def __init__(self):
+		self.dax = gdax.PublicClient()
+		self.btc = self.dax.get_product_ticker(product_id='BTC-USD')
+		self.ltc = self.dax.get_product_ticker(product_id='LTC-USD')
+		self.eth = self.dax.get_product_ticker(product_id='ETH-USD')
+		self.bch = self.dax.get_product_ticker(product_id='BCH-USD')
+	def get_btc(self):
+		return format(float(self.btc['price']), 'n')
+	def get_ltc(self):
+		return format(float(self.ltc['price']), 'n')
+	def get_eth(self):
+		return format(float(self.eth['price']), 'n')
+	def get_bch(self):
+		return format(float(self.bch['price']), 'n')
+	def get_btc_vol(self):
+		return format(float(self.btc['volume']), 'n')
+	def get_ltc_vol(self):
+		return format(float(self.ltc['volume']), 'n')
+	def get_eth_vol(self):
+		return format(float(self.eth['volume']), 'n')
+	def get_bch_vol(self):
+		return format(float(self.bch['volume']), 'n')
 
 #A class that returns supported currency symbols
 class Symbol:

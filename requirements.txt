@@ -6,3 +6,4 @@ urllib3==1.22
 python-telegram-bot==8.1.1
 coinmarketcap==4.1.1
 feedparser==5.2.1
+gdax==1.0.6

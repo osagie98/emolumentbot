@@ -43,14 +43,54 @@ def inline_currency(bot, update):
 	query = update.inline_query.query
 	#changes unicode object into a string
 	querys = query.encode('utf-8')
-	if not query:
-		return
 	#queryn checks for a news query
 	queryn = querys.lower()
-	if queryn == 'news':
+	if not query:
+		#create GDAX object
+		g = currency.Gdax()
+		results = [
+				InlineQueryResultArticle(
+				id=uuid4(),
+				title='GDAX',
+				input_message_content=InputTextMessageContent('Bitcoin GDAX Value: $' + g.get_btc() + '\nLitecoin GDAX Value: $' + g.get_ltc() + '\nEthereum GDAX Value: $' + g.get_eth() + '\nBitcoin Cash GDAX Value: $' + g.get_bch()),
+				description='View coins...',
+				thumb_url='https://i.imgur.com/DQ64TdCl.jpg'
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Bitcoin (BTC)',
+				input_message_content=InputTextMessageContent('Bitcoin Value: $' + g.get_btc() + '\nGDAX 24hr Volume: $' + g.get_btc_vol()),
+				description='$' + g.get_btc(),
+				thumb_url='https://www.cryptocompare.com/media/19633/btc.png'
+			),
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Litecoin (LTC)',
+				input_message_content=InputTextMessageContent('Litecoin Value: $' + g.get_ltc() + '\nGDAX 24hr Volume: $' + g.get_ltc_vol()),
+				description='$' + g.get_ltc(),
+				thumb_url='https://www.cryptocompare.com/media/19782/litecoin-logo.png'
+			),
+		#value of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Ethereum (ETH)',
+				input_message_content=InputTextMessageContent('Ethereum Value: $' + g.get_eth() + '\nGDAX 24hr Volume: $' + g.get_eth_vol()),
+				description= '$' + g.get_eth(),
+				thumb_url='https://www.cryptocompare.com/media/20646/eth_logo.png'
+			),
+			#market cap of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='Bitcoin Cash (BCH)',
+				input_message_content=InputTextMessageContent('Bitcoin Cash Value: $' + g.get_bch() + '\nGDAX 24hr Volume: $' + g.get_bch_vol()),
+				description='$' + g.get_bch(),
+				thumb_url='https://www.cryptocompare.com/media/1383919/bch.jpg'
+			)
+			#one hour percent change of the currency
+		]
+	elif queryn == 'news':
 		#create feedparser object 
-		d = feedparser.parse('http://feeds.feedburner.com/Coindesk?format=xml')
-		print d['entries'][0]['title'] 
+		d = feedparser.parse('http://feeds.feedburner.com/Coindesk?format=xml') 
 		results = [
 		#top feed results
 			InlineQueryResultArticle(
@@ -124,29 +164,50 @@ def inline_currency(bot, update):
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title=c.formatted_name(),
-				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: $" + c.value()),
 				thumb_url=c.get_image()
 			),
 		#value of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Value in ' + qList[1].upper(),
-				input_message_content=InputTextMessageContent(c.formatted_name() + " value: " + s.get_symbol() + " " + c.value_foreign()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: " + s.get_symbol() + " " + c.value_foreign()),
 				description= s.get_symbol() + c.value_foreign()
 			),
 			#market cap of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Market Capitalization in ' + qList[1].upper(),
-				input_message_content=InputTextMessageContent(c.formatted_name() + " market cap: " + s.get_symbol() + " " + c.market_cap_foreign()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Market Cap: " + s.get_symbol() + " " + c.market_cap_foreign()),
 				description= s.get_symbol() + c.market_cap_foreign()
+			),
+			#24 hr volume of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='24 Hour Volume in ' + qList[1].upper(),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " 24hr Volume: " + s.get_symbol() + " " + c.day_foreign()),
+				description= s.get_symbol() + c.day_foreign()
 			),
 			#one hour percent change of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
-				title='24 Hour Volume in ' + qList[1].upper(),
-				input_message_content=InputTextMessageContent(c.formatted_name() + " 24hr volume: " + s.get_symbol() + " " + c.day_foreign()),
-				description= s.get_symbol() + c.day_foreign()
+				title='1 Hour Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Hour Percent Change: " + c.percent_one_hr() + '%'),
+				description= c.percent_one_hr() + '%'
+			),
+			#one day percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='1 Day Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Day Percent Change: " + c.percent_one_day() + '%'),
+				description= c.percent_one_day() + '%'
+			),
+			#one week percent change of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='1 Week Percent Change',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Week Percent Change: " + c.percent_one_week() + '%'),
+				description= c.percent_one_week() + '%'
 			)
 		]
 	else:
@@ -156,48 +217,55 @@ def inline_currency(bot, update):
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title=c.formatted_name(),
-				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: $" + c.value()),
 				thumb_url=c.get_image()
 			),
 		#value of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Value',
-				input_message_content=InputTextMessageContent(c.formatted_name() + " value: $" + c.value()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Value: $" + c.value()),
 				description= '$' + c.value()
 			),
 			#market cap of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='Market Capitalization',
-				input_message_content=InputTextMessageContent(c.formatted_name() + " market cap: $" + c.market_cap()),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " Market Cap: $" + c.market_cap()),
 				description= '$' + c.market_cap()
+			),
+			#24 hr volume of the currency
+			InlineQueryResultArticle(
+				id=uuid4(),
+				title='24 Hour Volume',
+				input_message_content=InputTextMessageContent(c.formatted_name() + " 24hr Volume: $" + c.day()),
+				description= '$' + c.day()
 			),
 			#one hour percent change of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='1 Hour Percent Change',
-				input_message_content=InputTextMessageContent(c.formatted_name() + " one hour percent change: " + c.percent_one_hr() + '%'),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Hour Percent Change: " + c.percent_one_hr() + '%'),
 				description= c.percent_one_hr() + '%'
 			),
 			#one day percent change of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='1 Day Percent Change',
-				input_message_content=InputTextMessageContent(c.formatted_name() + " one day percent change: " + c.percent_one_day() + '%'),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Day Percent Change: " + c.percent_one_day() + '%'),
 				description= c.percent_one_day() + '%'
 			),
 			#one week percent change of the currency
 			InlineQueryResultArticle(
 				id=uuid4(),
 				title='1 Week Percent Change',
-				input_message_content=InputTextMessageContent(c.formatted_name() + " one week percent change: " + c.percent_one_week() + '%'),
+				input_message_content=InputTextMessageContent(c.formatted_name() + " One Week Percent Change: " + c.percent_one_week() + '%'),
 				description= c.percent_one_week() + '%'
 			),
 	        InlineQueryResultArticle(
 	            id=uuid4(),
 	            title='Version',
-	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.4 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): News functionality added'),
+	            input_message_content=InputTextMessageContent('EmolumentBot alpha v. 0.0.5 This is a barely functional bot. Release soon to follow\n\t- Update (1/4/18): GDAX functionality added'),
 	            description= 'Information on the latest update.'
 	        )
 		]

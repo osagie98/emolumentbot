@@ -6,10 +6,12 @@ import locale
 import crycompare
 import babel
 import feedparser
+import gdax
 
-d = feedparser.parse('http://feeds.feedburner.com/Coindesk?format=xml')
-print d['entries'][1]['summary_detail']['value'] 
-
+urlDict = crycompare.Price().coinList()
+baseurl = urlDict['BaseImageUrl']
+coinurl = urlDict['Data']['BCH']['ImageUrl']
+print baseurl + coinurl
 '''
 signDict = {'USD':'$', 'AUD':'AU$', 'BRL':'R$', 'CAN':'C$', 
 		'CHF':'CHF ', 'CNY':'C¥', 'EUR':'€', 'GBP':'£', 'HKD':'HK$', 
