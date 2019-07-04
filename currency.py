@@ -1,10 +1,13 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-15 -*-
-import coinmarketcap
-from coinmarketcap import Market
 import locale
 import crycompare
 import gdax
+import pdb
+from requests import Request, Session
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
+import json
+
 #allows formatting of floats
 locale.setlocale(locale.LC_ALL, '')
 
@@ -23,14 +26,26 @@ class Currency:
 	
 	def __init__(self, coin, currency):
 		self.coin = coin
-		self.coinmarketcap = Market()
+		# self.coinmarketcap = Market()
+		url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+		parameters = {'start':'1','convert':'USD'}
+		headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': '69c52309-cba3-43c1-863b-0510f3a6b5b3',}
+		session = Session()
+		session.headers.update(headers)
+		response = session.get(url, params=parameters)
+		# self.check = Market()
+		# self.coinDict = self.check.ticker()
+		self.coinDict = json.loads(response.text)['data']
 		self.currency = currency
+		self.image = Image(self.coinDict['symbol'])
+		'''
 		if currency == '':
 			self.coinDict = self.coinmarketcap.ticker(self.coin)[0]
 		else:
 			self.coinDict = self.coinmarketcap.ticker(self.coin, convert=currency)[0]
 		self.image = Image(self.coinDict['symbol'])
 		#self.history = History()
+		'''
 	#the following functions obtain specific info from the list provided by the market object
 	def value(self):
 		return format(float(self.coinDict['price_usd']), 'n')
@@ -49,12 +64,14 @@ class Currency:
 		return self.coinDict['name']
 	def get_image(self):
 		return self.image.create_image_url()
+	'''
 	def value_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['price_' + self.currency.lower()]), 'n')
 	def day_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['24h_volume_' + self.currency.lower()]), 'n')
 	def market_cap_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['market_cap_' + self.currency.lower()]), 'n')
+	'''
 	#def historica_data(self):
 	#	return self.history.Histo
 
@@ -74,18 +91,37 @@ class shortCurrency:
 		#bitcoin cash workaround, fix later
 		if self.coin == 'Bitcoin-Cash-/-BCC':
 			self.coin = 'bitcoin-cash'
-		self.coinmarketcap = Market()
+		# self.coinmarketcap = Market()
+
+		url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+		parameters = {'start':'1','convert':'USD'}
+		headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': '69c52309-cba3-43c1-863b-0510f3a6b5b3',}
+		session = Session()
+		session.headers.update(headers)
+		response = session.get(url, params=parameters)
+		dataList = json.loads(response.text)['data']
+		self.coinDict = {}
+		for coin in dataList:
+			if coin['symbol'] == self.shortcoin:
+				self.coinDict = coin['quote']['USD']
+				self.coinDict['name'] = self.coin
+				self.coinDict['symbol'] = self.shortcoin
+				break
+		
+		self.image = Image(self.coinDict['symbol'])
+		'''
 		if currency == '':
 			self.coinDict = self.coinmarketcap.ticker(self.coin)[0]
 		else:
 			self.coinDict = self.coinmarketcap.ticker(self.coin, convert=currency)[0]
 		self.image = Image(self.coinDict['symbol'])
 		#self.history = History()
+		'''
 	#the following functions obtain specific info from the list provided by the market object
 	def value(self):
-		return format(float(self.coinDict['price_usd']), 'n')
+		return format(float(self.coinDict['price']), 'n')
 	def market_cap(self):
-		return '{:,.2f}'.format(float(self.coinDict['market_cap_usd']))
+		return '{:,.2f}'.format(float(self.coinDict['market_cap']))
 	def percent_one_hr(self):
 		return format(float(self.coinDict['percent_change_1h']), 'n')
 	def percent_one_day(self):
@@ -93,28 +129,39 @@ class shortCurrency:
 	def percent_one_week(self):
 		return format(float(self.coinDict['percent_change_7d']), 'n')
 	def day(self):
-		return '{:,.2f}'.format(float(self.coinDict['24h_volume_usd']), 'n')
+		return '{:,.2f}'.format(float(self.coinDict['volume_24h']), 'n')
 	def formatted_name(self):
 		return self.coinDict['name']
 	def get_image(self):
 		return self.image.create_image_url()
+	'''
 	def value_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['price_' + self.currency.lower()]), 'n')
 	def day_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['24h_volume_' + self.currency.lower()]), 'n')
 	def market_cap_foreign(self):
 		return '{:,.2f}'.format(float(self.coinDict['market_cap_' + self.currency.lower()]), 'n')
+	'''
 
 #a class that decides whether query is the full name of the coin, or a symbol, and creates the correct class
 class Chooser:
 
 	def __init__(self, query, currency=''):
-		self.check = Market()
-		self.coinDict = self.check.ticker(limit=1000)
+		
+		url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+		parameters = {'start':'1','convert':'USD'}
+		headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': '69c52309-cba3-43c1-863b-0510f3a6b5b3',}
+		session = Session()
+		session.headers.update(headers)
+		response = session.get(url, params=parameters)
+		# self.check = Market()
+		# self.coinDict = self.check.ticker()
+		self.coinDict = json.loads(response.text)['data']
 		length = len(self.coinDict)-1
 		#uppercase for symbols
 		query2 = query.upper()
 		for x in range(0, length):
+			#  pdb.set_trace()
 			if query == self.coinDict[x]['id'] or query == self.coinDict[x]['name']:
 				self.money = Currency(query, currency)
 				break
@@ -138,12 +185,14 @@ class Chooser:
 		return self.money.formatted_name()
 	def get_image(self):
 		return self.money.get_image()
+	'''
 	def value_foreign(self):
 		return self.money.value_foreign()
 	def day_foreign(self):
 		return self.money.day_foreign()
 	def market_cap_foreign(self):
 		return self.money.market_cap_foreign()
+	'''
 
 #A class for GDAX information
 class Gdax:

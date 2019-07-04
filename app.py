@@ -24,7 +24,7 @@ dispatcher.add_handler(start_handler)
 import coinmarketcap
 from coinmarketcap import Market
 def get(bot, update):
-	coinmarketcap =Market()
+	coinmarketcap = Market()
 	money = coinmarketcap.ticker('bitcoin', limit=3, convert='EUR')
 	bot.send_message(chat_id=update.message.chat_id, text=money[0]['price_usd'])
 	print(update.message.chat_id)
@@ -42,7 +42,8 @@ def inline_currency(bot, update):
 
 	query = update.inline_query.query
 	#changes unicode object into a string
-	querys = query.encode('utf-8')
+	#querys = query.encode('utf-8')
+	querys = query
 	#queryn checks for a news query
 	queryn = querys.lower()
 	if not query:
@@ -164,7 +165,7 @@ def inline_currency(bot, update):
 	            thumb_url='http://freevector.co/wp-content/uploads/2013/02/9788-double-wrench1.png'
 			)
 	    ]	
-	elif " " in querys:
+	elif ' ' in querys:
 		#create list with query words
 		qList = querys.split()
 		#create chooser object
