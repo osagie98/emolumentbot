@@ -1,5 +1,5 @@
 asn1crypto==0.24.0
-astroid==2.2.5
+astroid==1.6.6
 bintrees==2.0.7
 certifi==2019.3.9
 cffi==1.12.3
